@@ -1,8 +1,8 @@
 <h1 align="center">Lunar Calendar</h1>
 
 <p align="center">
-    <img alt="Release version" src="https://img.shields.io/github/v/release/a-nano-Lunar/dust-obsidian-calendar?style=for-the-badge">
-    <img alt="Download count" src="https://img.shields.io/github/downloads/a-nano-dust/dust-obsidian-calendar/total?style=for-the-badge">
+    <img alt="Release version" src="https://img.shields.io/github/v/release/DevilRoshan/obsidian-lunar-calendar?style=for-the-badge">
+    <img alt="Download count" src="https://img.shields.io/github/downloads/DevilRoshan/obsidian-lunar-calendar/total?style=for-the-badge">
 </p>
 <p align="center">
     <span>Lunar Calendar 更符合中国习惯的 Obsidian 插件，它提供了日历浏览以及与日历联动的周期性笔记功能。</span>
