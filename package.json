@@ -1,0 +1,44 @@
+{
+  "name": "obsidian-lunar-calendar-plugin",
+  "version": "1.0.0",
+  "description": "Manage periodic notes more elegantly",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production"
+  },
+  "keywords": [],
+  "author": "Nano Dust",
+  "license": "MIT",
+  "devDependencies": {
+    "@reduxjs/toolkit": "^2.2.5",
+    "@types/lodash-es": "^4.17.12",
+    "@types/node": "^16.11.6",
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
+    "@typescript-eslint/eslint-plugin": "5.29.0",
+    "@typescript-eslint/parser": "5.29.0",
+    "builtin-modules": "3.3.0",
+    "esbuild": "0.20.0",
+    "lucide-react": "^0.356.0",
+    "luxon": "^3.4.4",
+    "obsidian": "^1.5.7-1",
+    "react-redux": "^9.1.2",
+    "redux": "^5.0.1",
+    "ts-node": "^10.9.2",
+    "tslib": "2.4.0",
+    "typescript": "^4.7.4"
+  },
+  "dependencies": {
+    "@ant-design/icons": "^5.3.7",
+    "@types/luxon": "^3.4.2",
+    "antd": "^5.17.3",
+    "antd-style": "^3.6.2",
+    "classnames": "^2.5.1",
+    "lodash-es": "^4.17.21",
+    "lunar-typescript": "^1.7.5",
+    "obsidian-daily-notes-interface": "^0.9.4",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
