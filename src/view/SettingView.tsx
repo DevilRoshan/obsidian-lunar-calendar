@@ -101,10 +101,9 @@ export default class MainSettingTable extends PluginSettingTab {
                   参考API
                 </a>{" "}
                 传递给QuickAdd的参数：
-              </div>
-              <div>
-                <span>filename(根据文件名格式生成的文件名)；</span>
-                <span>year(年份)</span>
+                <a href="https://github.com/DevilRoshan/obsidian-lunar-calendar">
+                  详见文档
+                </a>{" "}
               </div>
             </>
           }
