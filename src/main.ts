@@ -33,7 +33,7 @@ export default class CalendarPlugin extends Plugin {
     );
 
     this.addCommand({
-      id: "show-lunar-calendar-view",
+      id: "show-chinese-calendar-view",
       name: "打开日历视图",
       checkCallback: (checking: boolean) => {
         if (checking) {

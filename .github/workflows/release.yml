@@ -6,7 +6,7 @@ on:
       - "*"
 
 env:
-  PLUGIN_NAME: lunar-calendar
+  PLUGIN_NAME: chinese-calendar
 
 jobs:
   build:

@@ -1,4 +1,4 @@
-<h1 align="center">Lunar Calendar</h1>
+<h1 align="center">Chinese Calendar</h1>
 
 <p align="center">
     <img alt="Release version" src="https://img.shields.io/github/v/release/DevilRoshan/obsidian-lunar-calendar?style=for-the-badge">
@@ -73,15 +73,15 @@
 1. 打开 `设置/第三方插件`；
 2. 关闭 `安全模式`；
 3. 点击 `浏览` 按钮来查看第三方插件市场；
-4. 输入搜索：**Lunar Calendar**；
+4. 输入搜索：**Chinese Calendar**；
 5. 点击 `安装` 按钮；
 6. 激活插件然后启用。
 
 ### 手动安装
 
 1. 打开 Obsidian 库中的插件目录 `<仓库根目录>/.obsidian/plugins/`。 （注意： `.obsidian` 文件夹可能被隐藏了，我们需要先将该文件夹展示出来）
-2. 新建 lunar-calendar 文件夹。
-2. 下载 [latest release](https://github.com/DevilRoshan/obsidian-lunar-calendar/releases/latest)，解压并提取内容到 lunar-calendar 文件夹中。（包含 main.js 和 manifest.json）
+2. 新建 chinese-calendar 文件夹。
+2. 下载 [latest release](https://github.com/DevilRoshan/obsidian-lunar-calendar/releases/latest)，解压并提取内容到 chinese-calendar 文件夹中。（包含 main.js 和 manifest.json）
 3. 打开 `设置/第三方插件`，启用该插件。（如果没有点击刷新或者重新加载obsidian）
 
 ## 特别感谢

@@ -1,10 +1,9 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
-import dayjs from "dayjs";
 
 import { NoteType } from "../enum";
 import { createRoot } from "react-dom/client";
 import NoteInput from "../component/NoteInput";
-import { get, set } from "lodash-es";
+import { get } from "lodash-es";
 import CalendarPlugin from "src/main";
 
 export interface INoteConfigItem {

@@ -10,7 +10,7 @@ import Calendar from "../component/Calendar";
 import { getDateFromFile } from "obsidian-daily-notes-interface";
 import { NoteType, Granularity } from "src/enum";
 
-export const VIEW_TYPE_CALENDAR = "lunar-calendar-view";
+export const VIEW_TYPE_CALENDAR = "chinese-calendar-view";
 
 export class CalendarView extends ItemView {
   private root: Root | null = null;
@@ -18,7 +18,6 @@ export class CalendarView extends ItemView {
 
   constructor(leaf: WorkspaceLeaf) {
     super(leaf);
-    this.icon = "lucide-calendar-check";
     this.theme = {
       token: {
         colorPrimary: (this.app as any).getAccentColor(),
