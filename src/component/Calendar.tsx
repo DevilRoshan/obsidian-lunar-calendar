@@ -35,7 +35,7 @@ moment.locale("zh-cn", {
 
 const useStyle = createStyles(({ token, css, cx }) => {
   const lunar = css`
-    color: ${token.colorTextTertiary};
+    color: var(--text-normal);
     font-size: ${token.fontSizeSM}px;
   `;
   const exist = css`
@@ -45,7 +45,7 @@ const useStyle = createStyles(({ token, css, cx }) => {
       z-index: 1;
       content: "";
       border-radius: 50%;
-      background-color: ${token.colorPrimary};
+      background-color: var(--text-accent);
       transform: translateX(-50%);
       left: 50%;
       top: 42px;
@@ -74,7 +74,7 @@ const useStyle = createStyles(({ token, css, cx }) => {
       }
     `,
     header: css`
-      border-bottom: 1px solid rgba(5, 5, 5, 0.06);
+      border-bottom: var(--divider-width) solid var(--divider-color);
     `,
     icon: css`
       cursor: pointer;
@@ -93,7 +93,7 @@ const useStyle = createStyles(({ token, css, cx }) => {
         cursor: pointer;
         border-radius: ${token.borderRadiusOuter}px;
         &:hover {
-          background: rgba(0, 0, 0, 0.08);
+          background: var(--nav-item-background-hover);
         }
         &.${cx(exist)} {
           &:after {
@@ -104,6 +104,9 @@ const useStyle = createStyles(({ token, css, cx }) => {
     `,
     content: css`
       display: flex;
+      & .ant-picker-calendar .ant-picker-content th {
+        color: var(--text-normal);
+      }
     `,
     extraW: css`
       padding: 8px 0;
@@ -111,7 +114,7 @@ const useStyle = createStyles(({ token, css, cx }) => {
       flex-direction: column;
       align-items: center;
       margin-right: 4px;
-      border-right: 1px solid rgba(5, 5, 5, 0.06);
+      border-right: var(--divider-width) solid var(--divider-color);
     `,
     extraQ: css`
       padding: 8px 0;
@@ -119,7 +122,7 @@ const useStyle = createStyles(({ token, css, cx }) => {
       flex-direction: column;
       align-items: center;
       justify-content: space-around;
-      border-right: 1px solid rgba(5, 5, 5, 0.06);
+      border-right: var(--divider-width) solid var(--divider-color);
     `,
     extraWTh: css`
       line-height: 18px;
@@ -158,8 +161,9 @@ const useStyle = createStyles(({ token, css, cx }) => {
       background: transparent;
       margin: 0 auto;
       border-radius: 4px;
+      color: var(--text-normal);
       &:hover {
-        background: rgba(0, 0, 0, 0.08);
+        background: var(--nav-item-background-hover);
       }
     `,
     exist,
@@ -169,29 +173,26 @@ const useStyle = createStyles(({ token, css, cx }) => {
       z-index: 1;
     `,
     today: css`
-      border: 1px solid ${token.colorPrimary};
-      color: ${token.colorPrimary};
+      border: 1px solid var(--text-accent);
+      color: var(--text-accent);
       &:hover {
-        color: #fff;
-        background: var(--interactive-accent-hover);
+        color: var(--text-accent);
+        background: var(--nav-item-background-hover);
         .${cx(lunar)} {
-          color: #fff;
+          color: var(--text-accent);
         }
       }
       .${cx(lunar)} {
-        color: ${token.colorPrimary};
+        color: var(--text-accent);
       }
       & .${cx(badge)} {
-        background: ${token.colorPrimary};
+        background: var(--text-accent);
       }
     `,
     week: css`
       color: var(--color-red);
       .${cx(lunar)} {
         color: var(--color-red);
-      }
-      & .${cx(badge)} {
-        background: ${token.colorPrimary};
       }
     `,
     holiday: css`
@@ -205,20 +206,20 @@ const useStyle = createStyles(({ token, css, cx }) => {
       }
     `,
     work: css`
-      border: 1px solid rgba(0, 0, 0, 0.88);
-      color: rgba(0, 0, 0, 0.88);
+      border: 1px solid var(--text-normal);
       & .${cx(badge)} {
-        background: rgba(0, 0, 0, 0.88);
+        background: var(--text-normal);
+        color: var(--background-primary);
       }
     `,
     badge,
     monthCell: css`
       width: 120px;
-      color: ${token.colorTextBase};
+      color: var(--text-normal);
       border-radius: ${token.borderRadiusOuter}px;
       padding: 5px 0;
       &:hover {
-        background: rgba(0, 0, 0, 0.04);
+        background: var(--nav-item-background-hover);
       }
       &.${cx(exist)} {
         &:after {
@@ -228,7 +229,23 @@ const useStyle = createStyles(({ token, css, cx }) => {
       }
     `,
     monthCellCurrent: css`
-      color: ${token.colorPrimary} !important;
+      color: var(--text-accent) !important;
+    `,
+    radio: css`
+      & .ant-radio-button-wrapper {
+        color: var(--text-normal);
+        background: transparent;
+        border-color: var(--divider-color);
+      }
+      & .ant-radio-button-wrapper-checked {
+        border-color: var(--text-accent);
+      }
+      & .ant-radio-button-wrapper:not(:first-child)::before {
+        background-color: var(--divider-color);
+      }
+      & .ant-radio-button-wrapper-checked:not(:first-child)::before {
+        background-color: var(--text-accent);
+      }
     `,
   };
 });
@@ -425,6 +442,7 @@ const Calendar: React.FC<{}> = ({}) => {
                   e.target.value as CalendarProps<Moment>["mode"] & "today"
                 )
               }
+              className={styles.radio}
               value={mode}
             >
               <Radio.Button value="today">今</Radio.Button>
