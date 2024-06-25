@@ -95,14 +95,10 @@ export default class MainSettingTable extends PluginSettingTab {
           subTitle={
             <>
               <div>
-                配置要执行的QuickAdd模板命令，
-                <a href="https://quickadd.obsidian.guide/docs/QuickAddAPI#executechoicechoicename-string-variables-key-string-any-promise">
-                  参考API
-                </a>{" "}
-                传递给QuickAdd的参数：
+                配置要执行的QuickAdd模板命令，并且可以传递参数给QuickAdd模板命令。
                 <a href="https://github.com/DevilRoshan/obsidian-lunar-calendar">
                   详见文档
-                </a>{" "}
+                </a>
               </div>
             </>
           }

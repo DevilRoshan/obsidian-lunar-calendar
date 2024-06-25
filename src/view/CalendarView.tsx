@@ -1,5 +1,12 @@
 import { createRoot, Root } from "react-dom/client";
-import { ItemView, TFile, WorkspaceLeaf } from "obsidian";
+import {
+  App,
+  Events,
+  ItemView,
+  TAbstractFile,
+  TFile,
+  WorkspaceLeaf,
+} from "obsidian";
 import store from "../redux/store";
 import { Provider } from "react-redux";
 import { getAllNotes, getNotes } from "../redux/notes";
@@ -12,6 +19,8 @@ import { NoteType, Granularity } from "src/enum";
 
 export const VIEW_TYPE_CALENDAR = "chinese-calendar-view";
 
+type _App = App & { getAccentColor: () => string };
+
 export class CalendarView extends ItemView {
   private root: Root | null = null;
   theme: {};
@@ -20,7 +29,7 @@ export class CalendarView extends ItemView {
     super(leaf);
     this.theme = {
       token: {
-        colorPrimary: (this.app as any).getAccentColor(),
+        colorPrimary: (this.app as _App).getAccentColor(),
       },
       components: {
         Calendar: {
@@ -37,60 +46,56 @@ export class CalendarView extends ItemView {
 
     this.registerEvent(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (this.app.workspace as any).on(
+      (this.app.workspace as Events).on(
         "periodic-notes:settings-updated",
         this.onNoteSettingsUpdate
       )
     );
-    this.registerEvent(
-      (this.app.vault as any).on("create", this.onFileCreated)
-    );
-    this.registerEvent(
-      (this.app.vault as any).on("delete", this.onFileDeleted)
-    );
-    this.registerEvent(
-      (this.app.vault as any).on("rename", this.onFileRenamed)
-    );
+    this.registerEvent(this.app.vault.on("create", this.onFileCreated));
+    this.registerEvent(this.app.vault.on("delete", this.onFileDeleted));
+    this.registerEvent(this.app.vault.on("rename", this.onFileRenamed));
   }
 
   // 根据插件配置变化加载文件
   private onNoteSettingsUpdate(): void {
     getAllNotes();
   }
+  // (file: TAbstractFile) => any
+  private onFileCreated(file: TAbstractFile): void {
+    if (this.app.workspace.layoutReady && this.root) {
+      this.updateNotes(file);
+    }
+  }
+  private onFileDeleted(file: TAbstractFile): void {
+    if (this.app.workspace.layoutReady && this.root) {
+      this.updateNotes(file);
+    }
+  }
+  private onFileRenamed(file: TAbstractFile): void {
+    if (this.app.workspace.layoutReady && this.root) {
+      this.updateNotes(file);
+    }
+  }
 
-  private onFileCreated(file: TFile): void {
-    if (this.app.workspace.layoutReady && this.root) {
-      this.updateNotes(file);
-    }
-  }
-  private onFileDeleted(file: TFile): void {
-    if (this.app.workspace.layoutReady && this.root) {
-      this.updateNotes(file);
-    }
-  }
-  private onFileRenamed(file: TFile): void {
-    if (this.app.workspace.layoutReady && this.root) {
-      this.updateNotes(file);
-    }
-  }
-
-  public updateNotes(file: TFile) {
-    const map = {
-      [Granularity.DAILY]: NoteType.DAILY,
-      [Granularity.WEEKLY]: NoteType.WEEKLY,
-      [Granularity.MONTHLY]: NoteType.MONTHLY,
-      [Granularity.QUARTERLY]: NoteType.QUARTERLY,
-      [Granularity.YEARLY]: NoteType.YEARLY,
-    };
-    const g = [
-      Granularity.DAILY,
-      Granularity.WEEKLY,
-      Granularity.MONTHLY,
-      Granularity.QUARTERLY,
-      Granularity.YEARLY,
-    ].find((v) => getDateFromFile(file, v));
-    if (g) {
-      getNotes(map[g]);
+  public updateNotes(file: TAbstractFile) {
+    if (file instanceof TFile) {
+      const map = {
+        [Granularity.DAILY]: NoteType.DAILY,
+        [Granularity.WEEKLY]: NoteType.WEEKLY,
+        [Granularity.MONTHLY]: NoteType.MONTHLY,
+        [Granularity.QUARTERLY]: NoteType.QUARTERLY,
+        [Granularity.YEARLY]: NoteType.YEARLY,
+      };
+      const g = [
+        Granularity.DAILY,
+        Granularity.WEEKLY,
+        Granularity.MONTHLY,
+        Granularity.QUARTERLY,
+        Granularity.YEARLY,
+      ].find((v) => getDateFromFile(file, v));
+      if (g) {
+        getNotes(map[g]);
+      }
     }
   }
 
