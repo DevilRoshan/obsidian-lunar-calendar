@@ -204,6 +204,7 @@ export const createNoteQuickAdd = async (
   params.filename = filename;
   params.year = date.year();
   params.month = date.month();
+  params.label = noteConfigMap[type].title;
   (window.app as any).plugins.plugins.quickadd.api.executeChoice(
     quickAddChoice,
     params
