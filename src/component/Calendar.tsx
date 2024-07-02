@@ -70,6 +70,12 @@ const useStyle = createStyles(({ token, css, cx }) => {
       .ant-picker-calendar {
         .ant-picker-panel {
           border: none;
+          .ant-picker-cell {
+            opacity: 0.3;
+          }
+          .ant-picker-cell-in-view {
+            opacity: 1;
+          }
         }
       }
     `,
