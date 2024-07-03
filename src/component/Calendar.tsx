@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import classNames from "classnames";
 import { Calendar as AntCalendar, Col, Radio, Row } from "antd";
 import type { Moment } from "moment";
-import moment from "moment";
+import { moment } from "obsidian";
 import "moment/locale/zh-cn";
 import type { CalendarProps } from "antd";
 import { createStyles } from "antd-style";

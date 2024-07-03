@@ -68,7 +68,7 @@ export default class MainSettingTable extends PluginSettingTab {
   private displayNoteSetting(noteConfigItem: INoteConfigItem): void {
     const { containerEl } = this;
 
-    containerEl.createEl("h3", { text: noteConfigItem.title });
+    new Setting(containerEl).setName(noteConfigItem.title).setHeading();
 
     new Setting(containerEl)
       .setName(`是否使用 QuickAdd 模板功能`)

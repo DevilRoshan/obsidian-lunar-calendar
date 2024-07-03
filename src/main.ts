@@ -1,5 +1,4 @@
 import { App, Plugin } from "obsidian";
-import type { Moment, WeekSpec } from "moment";
 import { CalendarView, VIEW_TYPE_CALENDAR } from "./view/CalendarView";
 import SettingView from "./view/SettingView";
 import { ISetting, saveSetting, initialState } from "./redux/setting";
@@ -8,8 +7,6 @@ import store from "./redux/store";
 declare global {
   interface Window {
     app: App;
-    moment: () => Moment;
-    _bundledLocaleWeekSpec: WeekSpec;
   }
 }
 
@@ -50,7 +47,7 @@ export default class CalendarPlugin extends Plugin {
 
     this.addSettingTab(new SettingView(this.app, this));
 
-    this.app.workspace.onLayoutReady(this.initLeaf.bind(this))
+    this.app.workspace.onLayoutReady(this.initLeaf.bind(this));
   }
 
   async loadOptions(): Promise<void> {
@@ -71,12 +68,5 @@ export default class CalendarPlugin extends Plugin {
     this.app.workspace.getRightLeaf(false)?.setViewState({
       type: VIEW_TYPE_CALENDAR,
     });
-  }
-
-  // 关闭插件的时候执行释放资源的操作
-  onunload() {
-    this.app.workspace
-      .getLeavesOfType(VIEW_TYPE_CALENDAR)
-      .forEach((leaf) => leaf.detach());
   }
 }
