@@ -103,7 +103,7 @@ const useStyle = createStyles(({ token, css, cx }) => {
         }
         &.${cx(exist)} {
           &:after {
-            bottom: 0px;
+            top: 26px;
           }
         }
       }
