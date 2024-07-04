@@ -58,7 +58,7 @@ export const settingSlice = createSlice({
   initialState,
   reducers: {
     saveNotes: (state, action: PayloadAction<Partial<INotes>>) => {
-      return Object.assign({}, state, action.payload);
+      Object.assign(state, action.payload);
     },
   },
 });
@@ -146,12 +146,13 @@ export const formatLabel = (date: Moment) => {
 };
 
 export const createNoteQuickAdd = async (
-  date: Moment,
+  _date: Moment,
   type: NoteType,
   filename: string,
   quickAddChoice: string
 ) => {
   let params: any = {};
+  let date = _date.clone();
   if (type === NoteType.DAILY) {
     const d = Lunar.fromDate(date.toDate());
     const s = Solar.fromDate(date.toDate());
