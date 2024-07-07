@@ -4,12 +4,6 @@ import SettingView from "./view/SettingView";
 import { ISetting, saveSetting, initialState } from "./redux/setting";
 import store from "./redux/store";
 
-declare global {
-  interface Window {
-    app: App;
-  }
-}
-
 // 插件对象
 export default class CalendarPlugin extends Plugin {
   public options: ISetting = initialState;

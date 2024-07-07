@@ -18,7 +18,7 @@ import {
   formatDate,
   formatMonth,
   noteIsExists,
-  openOrCreateNote,
+  INotes,
 } from "../redux/notes";
 import { NoteType } from "../enum";
 
@@ -256,7 +256,13 @@ const useStyle = createStyles(({ token, css, cx }) => {
   };
 });
 
-const Calendar: React.FC<{}> = ({}) => {
+const Calendar: React.FC<{
+  openOrCreateNote: (
+    date: Moment,
+    type: NoteType,
+    notes: INotes[NoteType]
+  ) => void;
+}> = ({ openOrCreateNote }) => {
   const { styles } = useStyle({ test: true });
 
   const notes = useAppSelector((state) => state.notes);

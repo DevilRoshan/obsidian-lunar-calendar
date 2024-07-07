@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
 import type { Moment } from "moment";
 import { NoteType } from "../enum";
-import { TFile } from "obsidian";
+import { App, TFile } from "obsidian";
 import store from "./store";
 import {
   getAllDailyNotes,
@@ -149,7 +149,8 @@ export const createNoteQuickAdd = async (
   _date: Moment,
   type: NoteType,
   filename: string,
-  quickAddChoice: string
+  quickAddChoice: string,
+  ctx: App
 ) => {
   let params: any = {};
   let date = _date.clone();
@@ -206,7 +207,7 @@ export const createNoteQuickAdd = async (
   params.year = date.year();
   params.month = date.month();
   params.label = noteConfigMap[type].title;
-  (window.app as any).plugins.plugins.quickadd.api.executeChoice(
+  (ctx as any).plugins.plugins.quickadd.api.executeChoice(
     quickAddChoice,
     params
   );
@@ -226,7 +227,8 @@ export const createNote = async (date: Moment, type: NoteType) => {
 export const openOrCreateNote = async (
   date: Moment,
   type: NoteType,
-  notes: INotes[NoteType]
+  notes: INotes[NoteType],
+  ctx: App
 ) => {
   const getNoteSettings = {
     [NoteType.DAILY]: getDailyNoteSettings,
@@ -235,7 +237,7 @@ export const openOrCreateNote = async (
     [NoteType.QUARTERLY]: getQuarterlyNoteSettings,
     [NoteType.YEARLY]: getYearlyNoteSettings,
   };
-  const { workspace } = window.app;
+  const { workspace } = ctx;
   const existingFile = noteIsExists(date, type, notes);
   if (!existingFile) {
     // File doesn't exist
@@ -247,7 +249,13 @@ export const openOrCreateNote = async (
       // 判断是否使用quickAdd
       let note = null;
       if (useQuickAdd && quickAddChoice) {
-        note = await createNoteQuickAdd(date, type, filename, quickAddChoice);
+        note = await createNoteQuickAdd(
+          date,
+          type,
+          filename,
+          quickAddChoice,
+          ctx
+        );
         return;
       } else {
         note = await createNote(date, type);
@@ -262,6 +270,7 @@ export const openOrCreateNote = async (
       onAccept: createFile,
       text: `文件 ${filename} 不存在，是否创建？`,
       title: `新建${noteConfigMap[type].title}`,
+      ctx,
     });
     return;
   }

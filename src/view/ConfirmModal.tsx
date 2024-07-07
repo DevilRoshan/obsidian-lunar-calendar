@@ -40,6 +40,7 @@ export function createConfirmationDialog({
   onAccept,
   text,
   title,
-}: IConfirmationDialogParams): void {
-  new ConfirmationModal(window.app, { cta, onAccept, text, title }).open();
+  ctx,
+}: IConfirmationDialogParams & { ctx: App }): void {
+  new ConfirmationModal(ctx, { cta, onAccept, text, title }).open();
 }

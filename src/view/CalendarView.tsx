@@ -1,4 +1,5 @@
 import { createRoot, Root } from "react-dom/client";
+import type { Moment } from "moment";
 import {
   App,
   Events,
@@ -9,7 +10,12 @@ import {
 } from "obsidian";
 import store from "../redux/store";
 import { Provider } from "react-redux";
-import { getAllNotes, getNotes } from "../redux/notes";
+import {
+  getAllNotes,
+  getNotes,
+  INotes,
+  openOrCreateNote,
+} from "../redux/notes";
 // 配置 antd
 import { ConfigProvider } from "antd";
 import zhCN from "antd/locale/zh_CN";
@@ -43,6 +49,7 @@ export class CalendarView extends ItemView {
     this.onFileCreated = this.onFileCreated.bind(this);
     this.onFileDeleted = this.onFileDeleted.bind(this);
     this.onFileRenamed = this.onFileRenamed.bind(this);
+    this._openOrCreateNote = this._openOrCreateNote.bind(this);
 
     this.registerEvent(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -75,6 +82,14 @@ export class CalendarView extends ItemView {
     if (this.app.workspace.layoutReady && this.root) {
       this.updateNotes(file);
     }
+  }
+
+  private _openOrCreateNote(
+    date: Moment,
+    type: NoteType,
+    notes: INotes[NoteType]
+  ): void {
+    openOrCreateNote(date, type, notes, this.app);
   }
 
   public updateNotes(file: TAbstractFile) {
@@ -119,7 +134,7 @@ export class CalendarView extends ItemView {
     this.root.render(
       <ConfigProvider theme={this.theme} locale={zhCN}>
         <Provider store={store}>
-          <Calendar />
+          <Calendar openOrCreateNote={this._openOrCreateNote} />
         </Provider>
       </ConfigProvider>
     );
