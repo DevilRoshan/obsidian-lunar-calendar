@@ -18,10 +18,7 @@ export default class CalendarPlugin extends Plugin {
     );
 
     // 注册日历视图
-    this.registerView(
-      VIEW_TYPE_CALENDAR,
-      (leaf) => (this.view = new CalendarView(leaf))
-    );
+    this.registerView(VIEW_TYPE_CALENDAR, (leaf) => new CalendarView(leaf));
 
     this.addCommand({
       id: "show-chinese-calendar-view",
