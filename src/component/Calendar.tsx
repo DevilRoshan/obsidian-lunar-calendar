@@ -65,7 +65,7 @@ const useStyle = createStyles(({ token, css, cx }) => {
   return {
     wrapper: css`
       min-width: 368px;
-      border-radius: ${token.borderRadiusOuter};
+      border-radius: ${token.borderRadiusOuter}px;
       padding: 5px;
       .ant-picker-calendar {
         .ant-picker-panel {

@@ -53,6 +53,27 @@ export default class MainSettingTable extends PluginSettingTab {
       text: "Periodic Notes插件地址",
     });
     containerEl.createEl("hr");
+    containerEl.createEl("h3", {
+      text: "外观配置",
+    });
+    new Setting(containerEl)
+      .setName(`是否开启缩放功能`)
+      .setDesc("开启缩放功能，日历会适配宽高进行放大缩小")
+      .addToggle((toggle) => {
+        toggle.setValue(this.getSetting(`appearance.useScale`));
+        toggle.onChange(async (value) => {
+          this.plugin.writeOptions(() => ({
+            appearance: {
+              useScale: value,
+            },
+          }));
+          this.display();
+        });
+      });
+    containerEl.createEl("hr");
+    containerEl.createEl("h3", {
+      text: "笔记配置",
+    });
     [
       noteConfigMap[NoteType.DAILY],
       noteConfigMap[NoteType.WEEKLY],
@@ -61,6 +82,7 @@ export default class MainSettingTable extends PluginSettingTab {
       noteConfigMap[NoteType.YEARLY],
     ].map((v) => this.displayNoteSetting(v));
   }
+
   getSetting(path: string) {
     return get(this.plugin.options, path);
   }
@@ -114,5 +136,9 @@ export default class MainSettingTable extends PluginSettingTab {
         />
       );
     }
+  }
+
+  hide() {
+    this.plugin.saveOptions();
   }
 }

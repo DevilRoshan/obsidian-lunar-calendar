@@ -7,7 +7,6 @@ import store from "./redux/store";
 // 插件对象
 export default class CalendarPlugin extends Plugin {
   public options: ISetting = initialState;
-  private view: CalendarView | undefined;
 
   // 插件开启时执行初始化操作
   async onload() {
@@ -18,7 +17,10 @@ export default class CalendarPlugin extends Plugin {
     );
 
     // 注册日历视图
-    this.registerView(VIEW_TYPE_CALENDAR, (leaf) => new CalendarView(leaf));
+    this.registerView(
+      VIEW_TYPE_CALENDAR,
+      (leaf) => new CalendarView(leaf, this)
+    );
 
     this.addCommand({
       id: "show-chinese-calendar-view",
@@ -49,7 +51,11 @@ export default class CalendarPlugin extends Plugin {
 
   async writeOptions(changeOpts: () => Partial<ISetting>): Promise<void> {
     store.dispatch(saveSetting(changeOpts()));
+  }
+
+  async saveOptions() {
     await this.saveData(this.options);
+    this.app.workspace.trigger("chinese-calendar:settings-updated");
   }
 
   initLeaf(): void {

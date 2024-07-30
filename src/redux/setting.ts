@@ -15,6 +15,9 @@ export interface ISetting {
   [NoteType.MONTHLY]: INoteConfig;
   [NoteType.QUARTERLY]: INoteConfig;
   [NoteType.YEARLY]: INoteConfig;
+  appearance: {
+    useScale: boolean;
+  };
 }
 
 export const initialState: ISetting = {
@@ -38,6 +41,9 @@ export const initialState: ISetting = {
     useQuickAdd: false,
     quickAddChoice: "",
   },
+  appearance: {
+    useScale: false,
+  },
 };
 
 export const settingSlice = createSlice({
@@ -52,7 +58,7 @@ export const settingSlice = createSlice({
 
 export const getSettings = (type: NoteType) => {
   return store.getState().setting[type];
-}
+};
 
 // Action creators are generated for each case reducer function
 export const { saveSetting } = settingSlice.actions;
