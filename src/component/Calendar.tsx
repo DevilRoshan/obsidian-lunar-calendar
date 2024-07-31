@@ -268,13 +268,7 @@ const Calendar: React.FC<{
   const notes = useAppSelector((state) => state.notes);
 
   const [selectDate, setSelectDate] = React.useState<Moment>(moment());
-  const onDateChange: CalendarProps<Moment>["onSelect"] = (
-    date,
-    selectInfo
-  ) => {
-    if (selectInfo.source === "date") {
-      return;
-    }
+  const onDateChange: CalendarProps<Moment>["onSelect"] = (date) => {
     setSelectDate(date);
   };
 
