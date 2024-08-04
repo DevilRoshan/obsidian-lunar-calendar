@@ -108,17 +108,22 @@ export const getAllNotes = () => {
   });
 };
 
+const getDisplayHoliday = (d: Lunar, s: Solar) => {
+  const solarFestivals = s.getFestivals();
+  const lunarFestivals = d.getFestivals();
+  const festivals = [...lunarFestivals, ...solarFestivals];
+  return festivals.length > 0
+    ? festivals[0].length < 4
+      ? festivals[0]
+      : undefined
+    : undefined;
+};
+
 export const formatDate = (date: Moment) => {
   const d = Lunar.fromDate(date.toDate());
   const solarTerm = d.getJieQi();
   const s = Solar.fromDate(date.toDate());
-  const solarFestivals = s.getFestivals();
-  const displayHoliday =
-    solarFestivals.length > 0
-      ? solarFestivals[0].length < 4
-        ? solarFestivals[0]
-        : undefined
-      : undefined;
+  const displayHoliday = getDisplayHoliday(d, s);
   const dispalyDay =
     d.getDay() === 1 ? d.getMonthInChinese().concat("月") : d.getDayInChinese();
   const h = HolidayUtil.getHoliday(
@@ -168,13 +173,7 @@ export const createNoteQuickAdd = async (
     }
     params.solarTerm = solarTerm || "";
     let dateStr = filename;
-    const solarFestivals = s.getFestivals();
-    let festivals =
-      solarFestivals.length > 0
-        ? solarFestivals[0].length < 4
-          ? solarFestivals[0]
-          : undefined
-        : undefined;
+    let festivals = getDisplayHoliday(d, s);
     if (festivals) {
       dateStr += " ";
       dateStr += festivals;
