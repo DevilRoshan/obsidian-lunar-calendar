@@ -24,6 +24,10 @@
 
 修复农历节日不展示的问题
 
+### 2024.08.05-V1.0.10
+
+添加2025年法定节假日信息
+
 ## 插件简介
 
 **本插件依赖插件 [Periodic Notes](obsidian://show-plugin?id=periodic-notes) 请提前安装并启用**
