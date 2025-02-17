@@ -186,21 +186,32 @@ export const createNoteQuickAdd = async (
     const { format } = getDailyNoteSettings();
     params.start = date.startOf("week").format(format);
     params.end = date.endOf("week").format(format);
+    params.prevStart = date.startOf("week").format(format);
+    params.prevEnd = date.endOf("week").format(format);
   }
   if (type === NoteType.MONTHLY) {
     const { format } = getDailyNoteSettings();
+    const { format: prevFormat } = getWeeklyNoteSettings();
     params.start = date.startOf("month").format(format);
     params.end = date.endOf("month").format(format);
+    params.prevStart = date.startOf("month").format(prevFormat);
+    params.prevEnd = date.endOf("month").format(prevFormat);
   }
   if (type === NoteType.QUARTERLY) {
     const { format } = getDailyNoteSettings();
+    const { format: prevFormat } = getMonthlyNoteSettings();
     params.start = date.startOf("quarter").format(format);
     params.end = date.endOf("quarter").format(format);
+    params.prevStart = date.startOf("quarter").format(prevFormat);
+    params.prevEnd = date.endOf("quarter").format(prevFormat);
   }
   if (type === NoteType.YEARLY) {
     const { format } = getDailyNoteSettings();
+    const { format: prevFormat } = getQuarterlyNoteSettings();
     params.start = date.startOf("year").format(format);
     params.end = date.endOf("year").format(format);
+    params.prevStart = date.startOf("year").format(prevFormat);
+    params.prevEnd = date.endOf("year").format(prevFormat);
   }
   params.filename = filename;
   params.year = date.year();
