@@ -98,6 +98,14 @@ export const useStyle = createStyles(({ token, css, cx }) => {
         .ant-picker-cell-in-view {
           opacity: 1;
         }
+        .ant-picker-cell-disabled {
+          opacity: 0.8;
+          pointer-events: auto;
+          &:before {
+            background-color: transparent;
+            pointer-events: auto;
+          }
+        }
       }
     }
   `;

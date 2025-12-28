@@ -81,6 +81,21 @@ export default class MainSettingTable extends PluginSettingTab {
           this.display();
         });
       });
+
+    new Setting(containerEl)
+      .setName(`已过去时间透明`)
+      .setDesc("开启后，今天之前的时间将略微透明一些")
+      .addToggle((toggle) => {
+        toggle.setValue(this.getSetting(`appearance.pastTimeTransparent`));
+        toggle.onChange(async (value) => {
+          this.plugin.writeOptions(() => ({
+            appearance: {
+              pastTimeTransparent: value,
+            },
+          }));
+          this.display();
+        });
+      });
   }
 
   displayNoteSetting(): any {

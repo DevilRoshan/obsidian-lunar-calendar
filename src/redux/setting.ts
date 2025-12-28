@@ -24,6 +24,7 @@ export interface ISetting {
   appearance: {
     useScale: boolean;
     layout: LayoutMode;
+    pastTimeTransparent: boolean;
   };
 }
 
@@ -51,6 +52,7 @@ export const initialState: ISetting = {
   appearance: {
     useScale: false,
     layout: LayoutMode.Normal,
+    pastTimeTransparent: false
   },
 };
 

@@ -62,6 +62,10 @@ const Calendar: React.FC<{
     return getSettings("appearance.layout") === LayoutMode.Small;
   }, []);
 
+  const pastTimeTransparent = useMemo(() => {
+    return getSettings("appearance.pastTimeTransparent");
+  }, []);
+
   const cellRender: CalendarProps<Moment>["fullCellRender"] = (date, info) => {
     if (info.type === "date") {
       const { dateStr, isWork, isHoliday } = formatDate(date);
@@ -322,7 +326,11 @@ const Calendar: React.FC<{
                 {quarterLabel}
               </div>
             </div>
-            <div className={classNames(styles.headerLunarDate, styles.flexCenter)}>{chineseLabel}</div>
+            <div
+              className={classNames(styles.headerLunarDate, styles.flexCenter)}
+            >
+              {chineseLabel}
+            </div>
           </Col>
           <Col>
             <RightOutlined
@@ -360,6 +368,15 @@ const Calendar: React.FC<{
           value={selectDate}
           onSelect={onDateChange}
           headerRender={() => null}
+          disabledDate={(date) => {
+            if (
+              date.isBefore(moment().subtract(1, "day")) &&
+              pastTimeTransparent
+            ) {
+              return true;
+            }
+            return false;
+          }}
         />
       </div>
     </div>
