@@ -171,6 +171,13 @@ export const useStyle = createStyles(({ token, css, cx }) => {
 
     & .${cx(headerDate)} {
       font-size: 16px;
+      div {
+        &.${cx(exist)} {
+          &:after {
+            top: 20px;
+          }
+        }
+      }
     }
 
     & .${cx(headerLunarDate)} {
