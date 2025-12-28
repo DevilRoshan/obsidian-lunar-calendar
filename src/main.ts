@@ -3,6 +3,7 @@ import { CalendarView, VIEW_TYPE_CALENDAR } from "./view/CalendarView";
 import SettingView from "./view/SettingView";
 import { ISetting, saveSetting, initialState } from "./redux/setting";
 import store from "./redux/store";
+import { DeepPartial } from "./util/DeepPartial";
 
 // 插件对象
 export default class CalendarPlugin extends Plugin {
@@ -49,7 +50,7 @@ export default class CalendarPlugin extends Plugin {
     await this.saveData(this.options);
   }
 
-  async writeOptions(changeOpts: () => Partial<ISetting>): Promise<void> {
+  async writeOptions(changeOpts: () => DeepPartial<ISetting>): Promise<void> {
     store.dispatch(saveSetting(changeOpts()));
   }
 

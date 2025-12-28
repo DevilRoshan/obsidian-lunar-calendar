@@ -5,7 +5,6 @@ import type { Moment } from "moment";
 import { moment } from "obsidian";
 import "moment/locale/zh-cn";
 import type { CalendarProps } from "antd";
-import { createStyles } from "antd-style";
 import {
   DoubleLeftOutlined,
   DoubleRightOutlined,
@@ -21,9 +20,10 @@ import {
   INotes,
 } from "../redux/notes";
 import { NoteType } from "../enum";
-
+import { useStyle } from "./CalendarStyle";
 // 配置antd使用Moment
 import momentGenerateConfig from "rc-picker/es/generate/moment";
+import { getSettings, LayoutMode } from "src/redux/setting";
 const MyAntCalendar =
   AntCalendar.generateCalendar<Moment>(momentGenerateConfig);
 // 配置中文
@@ -31,229 +31,6 @@ moment.locale("zh-cn", {
   week: {
     dow: 1,
   },
-});
-
-const useStyle = createStyles(({ token, css, cx }) => {
-  const lunar = css`
-    color: var(--text-normal);
-    font-size: ${token.fontSizeSM}px;
-  `;
-  const exist = css`
-    position: relative;
-    &:after {
-      position: absolute;
-      z-index: 1;
-      content: "";
-      border-radius: 50%;
-      background-color: var(--text-accent);
-      transform: translateX(-50%);
-      left: 50%;
-      top: 42px;
-      width: 4px;
-      height: 4px;
-    }
-  `;
-  const badge = css`
-    position: absolute;
-    right: -8px;
-    top: -8px;
-    font-size: 12px;
-    border-radius: 4px;
-    color: #fff;
-    padding: 0px 3px;
-  `;
-  return {
-    wrapper: css`
-      min-width: 368px;
-      border-radius: ${token.borderRadiusOuter}px;
-      padding: 5px;
-      .ant-picker-calendar {
-        .ant-picker-panel {
-          border: none;
-          .ant-picker-cell {
-            opacity: 0.3;
-          }
-          .ant-picker-cell-in-view {
-            opacity: 1;
-          }
-        }
-      }
-    `,
-    header: css`
-      border-bottom: var(--divider-width) solid var(--divider-color);
-    `,
-    icon: css`
-      cursor: pointer;
-    `,
-    flexCenter: css`
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    `,
-    headerDate: css`
-      display: flex;
-      font-size: 20px;
-      div {
-        margin: 0 2px;
-        padding: 2px 4px;
-        cursor: pointer;
-        border-radius: ${token.borderRadiusOuter}px;
-        &:hover {
-          background: var(--nav-item-background-hover);
-        }
-        &.${cx(exist)} {
-          &:after {
-            top: 26px;
-          }
-        }
-      }
-    `,
-    content: css`
-      display: flex;
-      & .ant-picker-calendar .ant-picker-content th {
-        color: var(--text-normal);
-      }
-    `,
-    extraW: css`
-      padding: 8px 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-right: 4px;
-      border-right: var(--divider-width) solid var(--divider-color);
-    `,
-    extraQ: css`
-      padding: 8px 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-around;
-      border-right: var(--divider-width) solid var(--divider-color);
-    `,
-    extraWTh: css`
-      line-height: 18px;
-      width: 40px;
-      font-size: 14px;
-    `,
-    extraWTd: css`
-      font-weight: normal;
-      margin: 6px !important;
-      margin-left: 0 !important;
-      &.${cx(exist)} {
-        &:after {
-          top: 36px;
-          left: 50%;
-        }
-      }
-    `,
-    extraQTd: css`
-      font-weight: normal;
-      margin: 6px !important;
-      margin-left: 0 !important;
-      flex-direction: column;
-      &.${cx(exist)} {
-        &:after {
-          top: 42px;
-          left: 50%;
-        }
-      }
-    `,
-    dateCell: css`
-      width: 42px;
-      height: 42px;
-      border-radius: ${token.borderRadiusOuter}px;
-      box-sizing: border-box;
-      transition: background 300ms;
-      background: transparent;
-      margin: 0 auto;
-      border-radius: 4px;
-      color: var(--text-normal);
-      &:hover {
-        background: var(--nav-item-background-hover);
-      }
-    `,
-    exist,
-    lunar,
-    text: css`
-      position: relative;
-      z-index: 1;
-    `,
-    today: css`
-      border: 1px solid var(--text-accent);
-      color: var(--text-accent);
-      &:hover {
-        color: var(--text-accent);
-        background: var(--nav-item-background-hover);
-        .${cx(lunar)} {
-          color: var(--text-accent);
-        }
-      }
-      .${cx(lunar)} {
-        color: var(--text-accent);
-      }
-      & .${cx(badge)} {
-        background: var(--text-accent);
-      }
-    `,
-    week: css`
-      color: var(--color-red);
-      .${cx(lunar)} {
-        color: var(--color-red);
-      }
-    `,
-    holiday: css`
-      color: var(--color-red);
-      border: 1px solid var(--color-red);
-      .${cx(lunar)} {
-        color: var(--color-red);
-      }
-      & .${cx(badge)} {
-        background: var(--color-red);
-      }
-    `,
-    work: css`
-      border: 1px solid var(--text-normal);
-      & .${cx(badge)} {
-        background: var(--text-normal);
-        color: var(--background-primary);
-      }
-    `,
-    badge,
-    monthCell: css`
-      width: 120px;
-      color: var(--text-normal);
-      border-radius: ${token.borderRadiusOuter}px;
-      padding: 5px 0;
-      &:hover {
-        background: var(--nav-item-background-hover);
-      }
-      &.${cx(exist)} {
-        &:after {
-          top: 30px;
-          left: 50%;
-        }
-      }
-    `,
-    monthCellCurrent: css`
-      color: var(--text-accent) !important;
-    `,
-    radio: css`
-      & .ant-radio-button-wrapper {
-        color: var(--text-normal);
-        background: transparent;
-        border-color: var(--divider-color);
-      }
-      & .ant-radio-button-wrapper-checked {
-        border-color: var(--text-accent);
-      }
-      & .ant-radio-button-wrapper:not(:first-child)::before {
-        background-color: var(--divider-color);
-      }
-      & .ant-radio-button-wrapper-checked:not(:first-child)::before {
-        background-color: var(--text-accent);
-      }
-    `,
-  };
 });
 
 const Calendar: React.FC<{
@@ -280,6 +57,10 @@ const Calendar: React.FC<{
     }
     setMode(mode);
   };
+
+  const isSmallMode = useMemo(() => {
+    return getSettings("appearance.layout") === LayoutMode.Small;
+  }, []);
 
   const cellRender: CalendarProps<Moment>["fullCellRender"] = (date, info) => {
     if (info.type === "date") {
@@ -437,7 +218,12 @@ const Calendar: React.FC<{
   }, [selectDate, notes]);
 
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={classNames({
+        [styles.wrapper]: true,
+        [styles.small]: isSmallMode,
+      })}
+    >
       <div className={styles.header}>
         <Row justify="end" gutter={8}>
           <Col>
@@ -465,7 +251,7 @@ const Calendar: React.FC<{
         >
           <Col>
             <DoubleLeftOutlined
-              className={styles.icon}
+              className={styles.arrowIcon}
               aria-label="前一年"
               title="前一年"
               onClick={() => changeDate("sub", "year")}
@@ -473,7 +259,7 @@ const Calendar: React.FC<{
           </Col>
           <Col>
             <LeftOutlined
-              className={styles.icon}
+              className={styles.arrowIcon}
               aria-label="前一月"
               title="前一月"
               onClick={() => changeDate("sub", "month")}
@@ -536,11 +322,11 @@ const Calendar: React.FC<{
                 {quarterLabel}
               </div>
             </div>
-            <div className={classNames(styles.flexCenter)}>{chineseLabel}</div>
+            <div className={classNames(styles.headerLunarDate, styles.flexCenter)}>{chineseLabel}</div>
           </Col>
           <Col>
             <RightOutlined
-              className={styles.icon}
+              className={styles.arrowIcon}
               aria-label="后一月"
               title="后一月"
               onClick={() => changeDate("add", "month")}
@@ -548,7 +334,7 @@ const Calendar: React.FC<{
           </Col>
           <Col>
             <DoubleRightOutlined
-              className={styles.icon}
+              className={styles.arrowIcon}
               title="后一年"
               aria-label="后一年"
               onClick={() => changeDate("add", "year")}

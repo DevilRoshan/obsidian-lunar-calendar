@@ -1,12 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { merge } from "lodash-es";
+import { get, merge } from "lodash-es";
 import { NoteType } from "../enum";
 import store from "./store";
+import { DeepPartial } from "src/util/DeepPartial";
 
 export interface INoteConfig {
   useQuickAdd?: boolean;
   quickAddChoice?: string;
+}
+
+export enum LayoutMode {
+  Normal = "Normal",
+  Small = "Small",
 }
 
 export interface ISetting {
@@ -17,6 +23,7 @@ export interface ISetting {
   [NoteType.YEARLY]: INoteConfig;
   appearance: {
     useScale: boolean;
+    layout: LayoutMode;
   };
 }
 
@@ -43,6 +50,7 @@ export const initialState: ISetting = {
   },
   appearance: {
     useScale: false,
+    layout: LayoutMode.Normal,
   },
 };
 
@@ -50,14 +58,14 @@ export const settingSlice = createSlice({
   name: "setting",
   initialState,
   reducers: {
-    saveSetting: (state, action: PayloadAction<Partial<ISetting>>) => {
+    saveSetting: (state, action: PayloadAction<DeepPartial<ISetting>>) => {
       return merge({}, state, action.payload);
     },
   },
 });
 
-export const getSettings = (type: NoteType) => {
-  return store.getState().setting[type];
+export const getSettings = (type: string) => {
+  return get(store.getState().setting, type);
 };
 
 // Action creators are generated for each case reducer function
