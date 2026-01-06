@@ -1,7 +1,7 @@
 import { App, Plugin } from "obsidian";
 import { CalendarView, VIEW_TYPE_CALENDAR } from "./view/CalendarView";
 import SettingView from "./view/SettingView";
-import { ISetting, saveSetting, initialState } from "./redux/setting";
+import { CalendarLocale, ISetting, saveSetting, initialState } from "./redux/setting";
 import store from "./redux/store";
 import { DeepPartial } from "./util/DeepPartial";
 
@@ -46,6 +46,12 @@ export default class CalendarPlugin extends Plugin {
 
   async loadOptions(): Promise<void> {
     const options = await this.loadData();
+
+    // Backward-compat: previously used non-standard key en_BG for UK English.
+    if (options?.appearance?.locale === "en_BG") {
+      options.appearance.locale = CalendarLocale.en_GB;
+    }
+
     store.dispatch(saveSetting(options));
     await this.saveData(this.options);
   }

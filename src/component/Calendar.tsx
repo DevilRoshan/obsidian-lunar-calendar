@@ -4,6 +4,7 @@ import { Calendar as AntCalendar, Col, Radio, Row } from "antd";
 import type { Moment } from "moment";
 import { moment } from "obsidian";
 import "moment/locale/zh-cn";
+import "moment/locale/en-gb";
 import type { CalendarProps } from "antd";
 import {
   DoubleLeftOutlined,
@@ -24,14 +25,10 @@ import { useStyle } from "./CalendarStyle";
 // 配置antd使用Moment
 import momentGenerateConfig from "rc-picker/es/generate/moment";
 import { getSettings, LayoutMode } from "src/redux/setting";
+import { CalendarLocale } from "src/redux/setting";
+import { getMomentLocaleName } from "src/util/locale";
 const MyAntCalendar =
   AntCalendar.generateCalendar<Moment>(momentGenerateConfig);
-// 配置中文
-moment.locale("zh-cn", {
-  week: {
-    dow: 1,
-  },
-});
 
 const Calendar: React.FC<{
   openOrCreateNote: (
@@ -41,6 +38,26 @@ const Calendar: React.FC<{
   ) => void;
 }> = ({ openOrCreateNote }) => {
   const { styles } = useStyle({ test: true });
+
+  const localeSetting = useAppSelector(
+    (state) => state.setting.appearance.locale
+  );
+
+  useMemo(() => {
+    const momentLocaleName = getMomentLocaleName(localeSetting);
+    if (!momentLocaleName) {
+      return;
+    }
+    if (localeSetting === CalendarLocale.zh_CN) {
+      moment.locale("zh-cn", {
+        week: {
+          dow: 1,
+        },
+      });
+      return;
+    }
+    moment.locale(momentLocaleName);
+  }, [localeSetting]);
 
   const notes = useAppSelector((state) => state.notes);
 

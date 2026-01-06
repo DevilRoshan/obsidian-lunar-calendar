@@ -19,11 +19,14 @@ import {
 // 配置 antd
 import { ConfigProvider } from "antd";
 import zhCN from "antd/locale/zh_CN";
+import enUS from "antd/locale/en_US";
+import enGB from "antd/locale/en_GB";
 import Calendar from "../component/Calendar";
 import { getDateFromFile } from "obsidian-daily-notes-interface";
 import { NoteType, Granularity } from "src/enum";
 import CalendarPlugin from "src/main";
 import { JSX } from "react";
+import { CalendarLocale } from "src/redux/setting";
 
 export const VIEW_TYPE_CALENDAR = "chinese-calendar-view";
 const VIEW_TYPE_CALENDAR_SCALE = "chinese-calendar-view-scale";
@@ -178,6 +181,13 @@ export class CalendarView extends ItemView {
 
   public _render() {
     const useScale = !!this.plugin?.options.appearance.useScale;
+    const localeSetting = this.plugin?.options.appearance.locale;
+    const antdLocale =
+      localeSetting === CalendarLocale.en_US
+        ? enUS
+        : localeSetting === CalendarLocale.en_GB
+          ? enGB
+          : zhCN;
     const container = (dom: JSX.Element) => (
       <div
         id={VIEW_TYPE_CALENDAR}
@@ -199,7 +209,7 @@ export class CalendarView extends ItemView {
       </div>
     );
     const dom = (
-      <ConfigProvider theme={this.theme} locale={zhCN}>
+      <ConfigProvider theme={this.theme} locale={antdLocale}>
         <Provider store={store}>
           <Calendar openOrCreateNote={this._openOrCreateNote} />
         </Provider>

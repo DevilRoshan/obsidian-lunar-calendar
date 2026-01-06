@@ -15,6 +15,12 @@ export enum LayoutMode {
   Small = "Small",
 }
 
+export enum CalendarLocale {
+  zh_CN = "zh_CN",
+  en_US = "en_US",
+  en_GB = "en_GB",
+}
+
 export interface ISetting {
   [NoteType.DAILY]: INoteConfig;
   [NoteType.WEEKLY]: INoteConfig;
@@ -25,6 +31,7 @@ export interface ISetting {
     useScale: boolean;
     layout: LayoutMode;
     pastTimeTransparent: boolean;
+    locale: CalendarLocale;
   };
 }
 
@@ -52,7 +59,8 @@ export const initialState: ISetting = {
   appearance: {
     useScale: false,
     layout: LayoutMode.Normal,
-    pastTimeTransparent: false
+    pastTimeTransparent: false,
+    locale: CalendarLocale.zh_CN,
   },
 };
 

@@ -5,7 +5,7 @@ import { createRoot } from "react-dom/client";
 import NoteInput from "../component/NoteInput";
 import { get } from "lodash-es";
 import CalendarPlugin from "src/main";
-import { LayoutMode } from "src/redux/setting";
+import { CalendarLocale, LayoutMode } from "src/redux/setting";
 
 export interface INoteConfigItem {
   title: string;
@@ -48,6 +48,29 @@ export default class MainSettingTable extends PluginSettingTab {
     containerEl.createEl("h3", {
       text: "外观配置",
     });
+
+    new Setting(containerEl)
+      .setName(`Locale`)
+      .setDesc(
+        "影响日历界面语言（Ant Design）以及创建 periodic note 时的日期本地化（如 MMMM / dddd 等）"
+      )
+      .addDropdown((dropdown) => {
+        dropdown.addOptions({
+          [CalendarLocale.zh_CN]: "zh_CN（简体中文）",
+          [CalendarLocale.en_US]: "en_US（English）",
+          [CalendarLocale.en_GB]: "en_GB（English - UK）",
+        });
+        dropdown.setValue(this.getSetting(`appearance.locale`));
+        dropdown.onChange(async (value) => {
+          this.plugin.writeOptions(() => ({
+            appearance: {
+              locale: value as CalendarLocale,
+            },
+          }));
+          this.display();
+        });
+      });
+
     new Setting(containerEl)
       .setName(`是否开启缩放功能`)
       .setDesc("开启缩放功能，日历会适配宽高进行放大缩小")

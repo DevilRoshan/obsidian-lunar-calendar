@@ -31,6 +31,8 @@ import { getSettings } from "./setting";
 // lunar 地址 https://6tail.cn/calendar/api.html#overview.html
 import { HolidayUtil, Lunar, Solar } from "lunar-typescript";
 import { noteConfigMap } from "src/view/SettingView";
+import { CalendarLocale } from "src/redux/setting";
+import { getMomentLocaleName } from "src/util/locale";
 
 export interface INoteConfig {
   useQuickAdd?: boolean;
@@ -158,7 +160,11 @@ export const createNoteQuickAdd = async (
   ctx: App
 ) => {
   let params: any = {};
-  let date = _date.clone();
+  const localeSetting = getSettings("appearance.locale") as
+    | CalendarLocale
+    | undefined;
+  const momentLocaleName = getMomentLocaleName(localeSetting);
+  let date = momentLocaleName ? _date.clone().locale(momentLocaleName) : _date.clone();
   if (type === NoteType.DAILY) {
     const d = Lunar.fromDate(date.toDate());
     const s = Solar.fromDate(date.toDate());
@@ -253,14 +259,21 @@ export const openOrCreateNote = async (
     // File doesn't exist
     const { format } = getNoteSettings[type]();
     const { useQuickAdd, quickAddChoice } = getSettings(type);
-    const filename = date.format(format);
+    const localeSetting = getSettings("appearance.locale") as
+      | CalendarLocale
+      | undefined;
+    const momentLocaleName = getMomentLocaleName(localeSetting);
+    const dateWithLocale = momentLocaleName
+      ? date.clone().locale(momentLocaleName)
+      : date;
+    const filename = dateWithLocale.format(format);
 
     const createFile = async () => {
       // 判断是否使用quickAdd
       let note = null;
       if (useQuickAdd && quickAddChoice) {
         note = await createNoteQuickAdd(
-          date,
+          dateWithLocale,
           type,
           filename,
           quickAddChoice,
@@ -268,7 +281,7 @@ export const openOrCreateNote = async (
         );
         return;
       } else {
-        note = await createNote(date, type);
+        note = await createNote(dateWithLocale, type);
       }
       const leaf = workspace.getLeaf(false);
 
